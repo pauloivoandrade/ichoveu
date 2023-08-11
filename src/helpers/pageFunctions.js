@@ -1,5 +1,7 @@
 import { getWeatherByCity, searchCities } from './weatherAPI';
 
+const TOKEN = import.meta.env.VITE_TOKEN;
+
 /**
  * Cria um elemento HTML com as informações passadas
  */
@@ -77,7 +79,7 @@ export function showForecast(forecastList) {
  * Recebe um objeto com as informações de uma cidade e retorna um elemento HTML
  */
 export async function createCityElement(cityInfo) {
-  const { name, country, temp, condition, icon, URL_CIDADE } = cityInfo;
+  const { name, country, temp, condition, icon, url } = cityInfo;
 
   const cityElement = createElement('li', 'city');
 
@@ -105,21 +107,22 @@ export async function createCityElement(cityInfo) {
   cityElement.appendChild(infoContainer);
 
   const createBtn = createElement('button', 'btn', 'Ver previsão');
-  cityElement.appendChild(createBtn).addEventListener('click', async () => {
-    const URL_API = `http://api.weatherapi.com/v1/forecast.json?lang=pt&key=${TOKEN}&q=${URL_CIDADE}&days=7`;
-    const response = await fetch(URL_API);
-    const data = await response.json();
-    data.forecasday.map((forecast) => {
-      return {
-        date: forecast.date,
-        maxTemp: forecast.day.maxtemp_c,
-        minTemp: forecast.day.mintemp_c,
-        condition: forecast.day.condition.text,
-        icon: forecast.day.condition.icon,
-      };
-    });
-  });
+  const URL_API = `http://api.weatherapi.com/v1/forecast.json?lang=pt&key=${TOKEN}&q=${url}&days=7`;
 
+  const response = await fetch(URL_API);
+  const data = await response.json();
+  console.log(data);
+  const forecasts = data.forecast.forecastday.map((forecast) => {
+    return {
+      date: forecast.date,
+      maxTemp: forecast.day.maxtemp_c,
+      minTemp: forecast.day.mintemp_c,
+      condition: forecast.day.condition.text,
+      icon: forecast.day.condition.icon,
+    };
+  });
+  createBtn.addEventListener('click', () => showForecast(forecasts));
+  cityElement.appendChild(createBtn);
   return cityElement;
 }
 
@@ -133,12 +136,12 @@ export async function handleSearch(event) {
   const searchInput = document.getElementById('search-input');
   const searchValue = searchInput.value;
   const dados = await searchCities(searchValue);
-  const cityList = document.getElementById('cities');
+  const citiesList = document.getElementById('cities');
   if (dados) {
     dados.forEach(async (item) => {
       const cityUrl = await getWeatherByCity(item.url);
-      const cityElement = await createCityElement(cityUrl);
-      cityList.appendChild(cityElement);
+      const cityElements = await createCityElement(cityUrl);
+      citiesList.appendChild(cityElements);
     });
   }
 }
