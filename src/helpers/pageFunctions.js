@@ -124,7 +124,6 @@ export async function handleSearch(event) {
   const searchValue = searchInput.value;
   const dados = await searchCities(searchValue);
   const citiesList = document.getElementById('cities');
-  console.log(citiesList);
   if (dados) {
     dados.map(async (item) => {
       const cityUrl = await getWeatherByCity(item.url);
