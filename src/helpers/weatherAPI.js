@@ -22,7 +22,7 @@ export const getWeatherByCity = async (cityURL) => {
     name: data.location.name,
     temp: data.location.temp_c,
     condition: data.current.condition.text,
-    icon: data.location.icon,
+    icon: data.current.condition.icon,
   };
 };
 // {"location":{
