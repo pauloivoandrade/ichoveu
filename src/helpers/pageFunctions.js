@@ -104,6 +104,11 @@ export async function createCityElement(cityInfo) {
   cityElement.appendChild(headingElement);
   cityElement.appendChild(infoContainer);
 
+  const createBtn = createElement('button', 'btn', 'Ver previsão');
+  cityElement.appendChild(createBtn);
+  // const botao = document.getElementsByClassName('btn').addEventListener('click', () =>
+  // )
+
   return cityElement;
 }
 
