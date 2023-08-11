@@ -23,5 +23,6 @@ export const getWeatherByCity = async (cityURL) => {
     temp: data.location.temp_c,
     condition: data.location.condition,
     icon: data.location.icon,
+    url: data.location.url,
   };
 };
