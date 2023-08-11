@@ -18,13 +18,31 @@ export const getWeatherByCity = async (cityURL) => {
   const URL_API = `http://api.weatherapi.com/v1/current.json?lang=pt&key=${TOKEN}&q=${cityURL}`;
   const response = await fetch(URL_API);
   const data = await response.json();
+  console.log(data);
   return {
     name: data.location.name,
     country: data.location.country,
     temp: data.current.temp_c,
     condition: data.current.condition.text,
     icon: data.current.condition.icon,
+    url: cityURL,
   };
+};
+export const fetchForecastData = async (cityURL) => {
+  const URL_API = `http://api.weatherapi.com/v1/forecast.json?lang=pt&key=${TOKEN}&q=${cityURL}&days=7`;
+  const response = await fetch(URL_API);
+  const data = await response.json();
+  console.log(data);
+  const forecasts = data.forecast.forecastday.map((forecast) => {
+    return {
+      date: forecast.date,
+      maxTemp: forecast.day.maxtemp_c,
+      minTemp: forecast.day.mintemp_c,
+      condition: forecast.day.condition.text,
+      icon: forecast.day.condition.icon,
+    };
+  });
+  return forecasts;
 };
 // {"location":{
 //     "name":"Sao Paulo",

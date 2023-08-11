@@ -1,6 +1,4 @@
-import { getWeatherByCity, searchCities } from './weatherAPI';
-
-const TOKEN = import.meta.env.VITE_TOKEN;
+import { getWeatherByCity, searchCities, fetchForecastData } from './weatherAPI';
 
 /**
  * Cria um elemento HTML com as informações passadas
@@ -80,8 +78,8 @@ export function showForecast(forecastList) {
  */
 export async function createCityElement(cityInfo) {
   const { name, country, temp, condition, icon, url } = cityInfo;
-
   const cityElement = createElement('li', 'city');
+  console.log(cityInfo);
 
   const headingElement = createElement('div', 'city-heading');
   const nameElement = createElement('h2', 'city-name', name);
@@ -107,21 +105,10 @@ export async function createCityElement(cityInfo) {
   cityElement.appendChild(infoContainer);
 
   const createBtn = createElement('button', 'btn', 'Ver previsão');
-  const URL_API = `http://api.weatherapi.com/v1/forecast.json?lang=pt&key=${TOKEN}&q=${url}&days=7`;
-
-  const response = await fetch(URL_API);
-  const data = await response.json();
-  console.log(data);
-  const forecasts = data.forecast.forecastday.map((forecast) => {
-    return {
-      date: forecast.date,
-      maxTemp: forecast.day.maxtemp_c,
-      minTemp: forecast.day.mintemp_c,
-      condition: forecast.day.condition.text,
-      icon: forecast.day.condition.icon,
-    };
+  createBtn.addEventListener('click', async () => {
+    const forecastData = await fetchForecastData(url);
+    showForecast(forecastData);
   });
-  createBtn.addEventListener('click', () => showForecast(forecasts));
   cityElement.appendChild(createBtn);
   return cityElement;
 }
@@ -137,8 +124,9 @@ export async function handleSearch(event) {
   const searchValue = searchInput.value;
   const dados = await searchCities(searchValue);
   const citiesList = document.getElementById('cities');
+  console.log(citiesList);
   if (dados) {
-    dados.forEach(async (item) => {
+    dados.map(async (item) => {
       const cityUrl = await getWeatherByCity(item.url);
       const cityElements = await createCityElement(cityUrl);
       citiesList.appendChild(cityElements);
