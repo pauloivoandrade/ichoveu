@@ -79,7 +79,6 @@ export function showForecast(forecastList) {
 export async function createCityElement(cityInfo) {
   const { name, country, temp, condition, icon, url } = cityInfo;
   const cityElement = createElement('li', 'city');
-  console.log(cityInfo);
 
   const headingElement = createElement('div', 'city-heading');
   const nameElement = createElement('h2', 'city-name', name);
@@ -104,7 +103,7 @@ export async function createCityElement(cityInfo) {
   cityElement.appendChild(headingElement);
   cityElement.appendChild(infoContainer);
 
-  const createBtn = createElement('button', 'btn', 'Ver previsão');
+  const createBtn = createElement('button', 'city-forecast-button', 'Ver previsão');
   createBtn.addEventListener('click', async () => {
     const forecastData = await fetchForecastData(url);
     showForecast(forecastData);

@@ -1,13 +1,14 @@
 * {
   margin: 0;
   padding: 0;
-  color: rgb(51, 51, 51);
+  color: rgb(0, 0, 0);
   font-family: Inter, sans-serif;
   box-sizing: border-box;
 }
 
 body {
   position: relative;
+  background-image: ;
 }
 
 header {
@@ -105,6 +106,7 @@ ul {
   width: 100%;
   padding: 15px;
   flex-grow: 1;
+  font-size: 25px;
 }
 
 .city-temp-container {
@@ -113,11 +115,13 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: solid;
+  border-radius: 10px;
 }
 
 .city-temp {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 30px;
 }
 
 .city-forecast-button {
@@ -170,7 +174,7 @@ ul {
 .weekdays {
   display: flex;
   gap: 25px;
-  padding: 30px 20px 15px;
+  padding: 30px 20px 15px;  
 }
 
 .hidden {
