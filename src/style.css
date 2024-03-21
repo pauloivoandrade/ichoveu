@@ -1,14 +1,13 @@
 * {
   margin: 0;
   padding: 0;
-  color: rgb(0, 0, 0);
+  color: rgb(black);
   font-family: Inter, sans-serif;
   box-sizing: border-box;
 }
 
 body {
   position: relative;
-  background-image: ;
 }
 
 header {
@@ -174,7 +173,7 @@ ul {
 .weekdays {
   display: flex;
   gap: 25px;
-  padding: 30px 20px 15px;  
+  padding: 30px 20px 15px;
 }
 
 .hidden {
